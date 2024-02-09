@@ -1,5 +1,6 @@
 import FetchWrapper from "./helpers/fetch-wrapper.js";
 import { capitalize, calculateCalories } from './helpers/helpers.js'; 
+import snackbar from "snackbar";
 
 const API = new FetchWrapper(
   "https://firestore.googleapis.com/v1/projects/jsdemo-3f387/databases/(default)/documents/beanwang"
@@ -26,12 +27,13 @@ form.addEventListener("submit", (event) => {
     console.log(data);
     if (data.error) {
         // there was an error
+        snackbar.show('Some data is missing here');
         return;
     }
 
     const capitalizedName = capitalize(name.value);
     const totalCalories = calculateCalories(carbs.value, protein.value, fat.value);
-
+    snackbar.show('Food added successfully');
     list.insertAdjacentHTML(
         "beforeend",
         `<li class="card">
