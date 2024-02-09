@@ -1,5 +1,5 @@
 import FetchWrapper from "./fetch-wrapper.js";
-import { capitilize, calculateCalories } from './helpers.js'; 
+import { capitalize, calculateCalories } from './helpers/helpers.js'; 
 
 const API = new FetchWrapper(
   "https://firestore.googleapis.com/v1/projects/jsdemo-3f387/databases/(default)/documents/beanwang"
@@ -29,7 +29,7 @@ form.addEventListener("submit", (event) => {
         return;
     }
 
-    const capitilizedName = capitilize(name.value);
+    const capitalizedName = capitalize(name.value);
     const totalCalories = calculateCalories(carbs.value, protein.value, fat.value);
 
     list.insertAdjacentHTML(
