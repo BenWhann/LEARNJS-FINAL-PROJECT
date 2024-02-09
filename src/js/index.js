@@ -1,4 +1,4 @@
-import FetchWrapper from "./fetch-wrapper.js";
+import FetchWrapper from "./helpers/fetch-wrapper.js";
 import { capitalize, calculateCalories } from './helpers/helpers.js'; 
 
 const API = new FetchWrapper(
