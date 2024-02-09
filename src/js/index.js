@@ -36,7 +36,7 @@ form.addEventListener("submit", (event) => {
         "beforeend",
         `<li class="card">
           <div>
-            <h3 class="name">${capitilizedName}</h3>
+            <h3 class="name">${capitalizedName}</h3>
             <div class="calories">${totalCalories} calories</div>
             <ul class="macros">
               <li class="carbs"><div>Carbs</div><div class="value">${carbs.value}g</div></li>
