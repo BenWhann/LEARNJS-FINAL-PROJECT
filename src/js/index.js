@@ -1,9 +1,10 @@
 import FetchWrapper from "./helpers/fetch-wrapper.js";
 import { capitalize, calculateCalories } from './helpers/helpers.js'; 
-const snackbar = require('snackbar');
+// import snackbar from 'snackbar';
 import AppData from "./helpers/app-data.js";
+// import Chart from './path/to/chartjs/dist/Chart.js';
 
-const Data = new AppData();
+const appData = new AppData();
 const API = new FetchWrapper(
   "https://firestore.googleapis.com/v1/projects/jsdemo-3f387/databases/(default)/documents/beanwang"
 );
@@ -16,6 +17,7 @@ const protein = document.querySelector("#create-protein");
 const fat = document.querySelector("#create-fat");
 
 const displayEntry = (name, carbs, protein, fat) => {
+  appData.addFood(carbs, protein, fat);
   list.insertAdjacentHTML(
   "beforeend",
   `<li class="card">
@@ -56,14 +58,14 @@ fields: {
 console.log(data);
 if (data.error) {
   // there was an error
-  snackbar.show("Some data is missing.");
+  // snackbar.show("Some data is missing.");
   return;
 }
 
-snackbar.show("Food added successfully.");
+// snackbar.show("Food added successfully.");
 
-// TODO: refactor into displayEntry
 displayEntry(capitalize(name.value), carbs.value, protein.value, fat.value);
+renderChart();
 
 name.value = "";
 carbs.value = "";
@@ -73,15 +75,41 @@ fat.value = "";
 });
 
 const init = () => {
-// the ?pageSize=100 is optional
 API.get("/?pageSize=100").then((data) => {
   data.documents?.forEach((doc) => {
     const fields = doc.fields;
-
-    // TODO: refactor into displayEntry
     displayEntry(capitalize(fields.name.stringValue), fields.carbs.integerValue, fields.protein.integerValue, fields.fat.integerValue)
   });
+  renderChart();
 });
 }
+
+let chartInstance = null;
+const renderChart = () => {
+  chartInstance?.destroy();
+  const context = document.querySelector("#app-chart").getContext("2d");
+  chartInstance = new Chart(context, {
+    type: "bar",
+    data: {
+      labels: ["Carbs", "Protein", "Fat"],
+      datasets: [
+        {
+          label: "Macronutrients",
+          data: [appData.getTotalCarbs(), appData.getTotalProtein(), appData.getTotalFat()],
+          backgroundColor: ["#25AEEE", "#FECD52", "#57D269"]
+        },
+      ],
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+  });
+};
 
 init();
