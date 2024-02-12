@@ -15,6 +15,11 @@ const name = document.querySelector("#create-name");
 const carbs = document.querySelector("#create-carbs");
 const protein = document.querySelector("#create-protein");
 const fat = document.querySelector("#create-fat");
+const totalCalories = document.querySelector('#total-calories');
+
+const displayCalories = () => {
+  totalCalories.innerHTML = appData.getTotalCalories();
+}
 
 const displayEntry = (name, carbs, protein, fat) => {
   appData.addFood(carbs, protein, fat);
@@ -66,6 +71,7 @@ if (data.error) {
 
 displayEntry(capitalize(name.value), carbs.value, protein.value, fat.value);
 renderChart();
+displayCalories();
 
 name.value = "";
 carbs.value = "";
@@ -81,6 +87,7 @@ API.get("/?pageSize=100").then((data) => {
     displayEntry(capitalize(fields.name.stringValue), fields.carbs.integerValue, fields.protein.integerValue, fields.fat.integerValue)
   });
   renderChart();
+  displayCalories();
 });
 }
 
