@@ -1,7 +1,9 @@
 import FetchWrapper from "./helpers/fetch-wrapper.js";
 import { capitalize, calculateCalories } from './helpers/helpers.js'; 
 const snackbar = require('snackbar');
+import AppData from "./helpers/app-data.js";
 
+const Data = new AppData();
 const API = new FetchWrapper(
   "https://firestore.googleapis.com/v1/projects/jsdemo-3f387/databases/(default)/documents/beanwang"
 );
